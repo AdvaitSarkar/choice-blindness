@@ -1,10 +1,13 @@
-let currentID = -1
 const max = 14 // i.e., 15 elements
 const ids = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
 const manipulated = [0,0,0,0,1,0,0,0,0,1,0,0,0,1,0] // 5, 10, 14
 const feedback = [0,0,1,0,1,0,0,1,0,1,0,1,0,1,0]    // 3, 5, 8, 10, 12, 14
+
+let currentID = -1
 let imgA, imgB, responseDiv, responseText, check, coverUp, heading
 let randOrder = ids.slice()
+let choiceStart, choiceEnd
+let fullLog = ""
 
 /**
  * Shuffles array in place. ES6 version
@@ -26,18 +29,26 @@ function init() {
     check = document.getElementById("check")
     coverUp = document.getElementById("coverUp")
     heading = document.getElementById("heading")
+    currentIDSpan = document.getElementById("currentID")
 
     document.addEventListener('keyup', mismatchDetected)
 
     shuffle(randOrder)
-    console.log("order,"+randOrder)
+    logMessage("order,"+randOrder)
 
     nextPair()
 }
 
+function logMessage(m) {
+    console.log(m)
+    fullLog += "\n"+m
+}
+
 function clicked(which) {
-    console.log(currentID+','+randOrder[currentID]+',clicked,'+which)
-    
+    logMessage(currentID+','+randOrder[currentID]+',clicked,'+which)
+    choiceEnd = performance.now()
+    logMessage(currentID+','+randOrder[currentID]+',time,'+(choiceEnd-choiceStart).toFixed(2))
+
     coverUp.style.display = "block"
     window.setTimeout( function() {
         coverUp.className = "opaque"
@@ -63,15 +74,15 @@ function clicked(which) {
 
         window.setTimeout( function() {
             coverUp.style.display = "none"
-        }, 2000);
-    }, 2100);
+        }, 000); //2000
+    }, 00); //2100
 }
 
 function mismatchDetected(event) {
     if(event.key==="AltGraph")
     {
         if(confirm("Skip?")) {
-            console.log(currentID+','+randOrder[currentID]+',skipped')
+            logMessage(currentID+','+randOrder[currentID]+',skipped')
             nextPair()
         }
         else {}
@@ -79,17 +90,21 @@ function mismatchDetected(event) {
 }
 
 function submitted() {
-    console.log(currentID+','+randOrder[currentID]+',responseText,'+responseText.value)
-    console.log(currentID+','+randOrder[currentID]+',check,'+check.checked)
+    logMessage(currentID+','+randOrder[currentID]+',responseText,'+responseText.value)
+    logMessage(currentID+','+randOrder[currentID]+',check,'+check.checked)
     nextPair()
 }
 
 function nextPair() {
     currentID += 1
-    document.getElementById("currentID").innerText = currentID
+    currentIDSpan.innerText = currentID
 
     if(currentID>max) {
-        alert('done!')
+        console.log(fullLog)
+        heading.innerText = "Done!"
+        imgA.style.display = "none"
+        imgB.style.display = "none"
+        currentIDSpan.innerText = fullLog
         return
     }
 
@@ -102,4 +117,6 @@ function nextPair() {
     imgB.src="images/"+randOrder[currentID]+"b.png"
     imgA.style.display = "inline"
     imgB.style.display = "inline"
+
+    choiceStart = performance.now()
 }
