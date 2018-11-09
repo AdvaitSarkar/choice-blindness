@@ -1,0 +1,12 @@
+Consent form
+
+Gather demographics:
+    age, gender
+
+Choose group: HS or LS
+
+Experiment
+
+Post-experiment
+    Detection?
+    Satisfied with time to make a choice?

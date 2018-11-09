@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Design evaluation study</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js"></script>
+  </head>
+  <body onload="init()">
+    <div id="coverUp" style="position:absolute; top:0%; left:0%; width:100%; height:100%; background-color:black; display: none;" class="transparent"></div>
+
+    <span id="currentID"></span>
+    <h1 id="heading"></h1>
+    <img id="imgA" onclick="clicked('A')">
+    <img id="imgB" onclick="clicked('B')">
+
+    <div id="response" style="display:none">
+        <h1>Why is this design more attractive?</h1>
+        <textarea name="" id="responseText" cols="40" rows="3"></textarea>
+        <br>
+        <input type="checkbox" name="" id="check"> I don't know why I preferred this design
+        <br>
+        <input type="button" value="Submit" onclick="submitted()">
+    </div>
+  </body>
+</html>
